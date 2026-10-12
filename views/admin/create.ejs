@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+<body>
+    <form action="/admin/create" method="post" class="flex flex-col">
+        <input type="text" name="title" placeholder="title" class="border border-zinc-300 m-2 p-2 rounded-lg ">
+        <input type="text" name="description" placeholder="description" class="border border-zinc-300 m-2 p-2 rounded-lg ">
+        <input type="text" name="url" placeholder="url" class="border border-zinc-300 m-2 p-2 rounded-lg ">
+        <input type="text" name="imageUrl" placeholder="imageUrl" class="border border-zinc-300 m-2 p-2 rounded-lg ">
+        <textarea name="content" placeholder="content" class="border border-zinc-300 m-2 p-2 rounded-lg "></textarea>
+<input type="submit" class="bg-blue-500 p-4 m-2 rounded-lg text-white">
+    </form>
+</body>
+</html>
