@@ -1,121 +1,101 @@
-<%- include('partials/header', { title: 'StudenCalc Blog' }) %>
+<%- include('./partials/header', { title: 'StudentCalc Blog' }) %>
 
+<main class="flex-1 max-w-7xl mx-auto py-6 px-4 w-full">
 
-    <main class="">
-        <div class="w-full grid md:grid-cols-3 grid-cols-1">
-            <a href="" class="md:col-span-2 px-4 ">
-                <img class="" src="https://www.technewsworld.com/wp-content/uploads/sites/3/2026/07/samsung-galaxy-z-fold8-fold8-ultra-flip8.jpg"
-                    alt="">
+    <!-- Category Header Banner -->
+    <% if (selectedCategory) { %>
+        <div class="mb-8 border-b border-zinc-200 pb-4 px-4">
+            <h1 class="text-3xl font-bold text-zinc-950" style="font-family: 'Google Sans Code';"><%= selectedCategory %></h1>
+            <p class="text-sm text-zinc-500 mt-1">Showing articles published in <%= selectedCategory %></p>
+        </div>
+    <% } %>
 
-                <div class="mt-2">
-                    <h1 style="font-family: 'Google Sans Code';" class="md:text-3xl text-2xl text-zinc-950 hover:underline">Samsung
-                        Unveils Its
-                        Strongest Foldable
-                        Lineup Yet. It's
-                        Your Move, Apple</h1>
-                    <p>Mark Vena analyzes Samsung's latest Galaxy devices, where foldables are headed, and whether
-                        premium pricing can sustain the category's momentum.</p>
-                </div>
-            </a>
+    <% if (!hero && (!topStories || topStories.length === 0) && (!recent || recent.length === 0)) { %>
+        <!-- Empty State -->
+        <div class="text-center py-20">
+            <h2 class="text-2xl font-semibold text-zinc-700" style="font-family: 'Google Sans Code';">No posts published yet.</h2>
+            <p class="text-zinc-500 mt-2">Check back later or log in as admin to publish your first post!</p>
+            <% if (user && user.role === 'admin') { %>
+                <a href="/admin/create" class="inline-block mt-4 px-4 py-2 bg-zinc-950 text-white rounded font-medium text-sm">Publish First Post</a>
+            <% } %>
+        </div>
+    <% } else { %>
 
-            <div class="md:col-span-1 px-4 [&>div:last-child>hr]:hidden pt-4 md:pt-0">
-                <a href="" class="">
-                    <div class="flex gap-4">
-                        <img class="h-40 w-40 object-cover"
-                            src="https://media.wired.com/photos/6abdb2233241c89b6aaeb7ab/1:1/w_1024%2Cc_limit/Backchannel-iPod-Anniversary-Business-678384.jpg"
-                            alt="">
+        <!-- Hero & Top Stories -->
+        <% if (hero || (topStories && topStories.length > 0)) { %>
+            <div class="w-full grid md:grid-cols-3 grid-cols-1 gap-6">
+                <% if (hero) { %>
+                    <a href="/post/<%= hero.slug %>" class="md:col-span-2 px-4 group">
+                        <img class="w-full h-[420px] object-cover rounded-sm"
+                             src="<%= hero.coverImage?.url || '' %>"
+                             alt="<%= hero.coverImage?.alt || hero.title %>">
 
-                        <h2 class="text-lg md:text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">I’m Still Convinced
-                            the iPod Was
-                            the Perfect Gadget</h2>
+                        <div class="mt-3">
+                            <h1 style="font-family: 'Google Sans Code';" class="md:text-3xl text-2xl text-zinc-950 group-hover:underline font-bold leading-tight">
+                                <%= hero.title %>
+                            </h1>
+                            <p class="mt-2 text-zinc-700 leading-relaxed"><%= hero.excerpt %></p>
+                            <div class="flex items-center justify-between mt-3 text-sm text-zinc-950 font-semibold" style="font-family: 'Google Sans Code';">
+                                <span>By <%= hero.author?.name || 'Editorial Team' %></span>
+                                <%- include('./partials/views-badge', { count: hero.views }) %>
+                            </div>
+                        </div>
+                    </a>
+                <% } %>
+
+                <% if (topStories && topStories.length > 0) { %>
+                    <div class="md:col-span-1 px-4 [&>a:last-child>hr]:hidden pt-4 md:pt-0 flex flex-col gap-2">
+                        <% topStories.forEach(post => { %>
+                            <a href="/post/<%= post.slug %>" class="group block">
+                                <div class="flex gap-4 items-start">
+                                    <img class="h-28 w-28 object-cover rounded-sm flex-shrink-0"
+                                         src="<%= post.coverImage?.url || '' %>"
+                                         alt="<%= post.coverImage?.alt || post.title %>">
+
+                                    <div>
+                                        <h2 class="text-base md:text-lg text-zinc-950 group-hover:underline font-bold leading-snug" style="font-family: 'Google Sans Code';">
+                                            <%= post.title %>
+                                        </h2>
+                                        <div class="text-xs mt-1">
+                                            <%- include('./partials/views-badge', { count: post.views }) %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="w-[90%] text-zinc-300 my-3">
+                            </a>
+                        <% }); %>
                     </div>
-                    <hr class="w-[90%] text-zinc-300 my-2">
-                </a>
-
-                <a href="" class="">
-                    <div class="flex gap-4">
-                        <img class="h-40 w-40 object-cover"
-                            src="https://media.wired.com/photos/6ac690e71275a2452d67fafd/1:1/w_1024%2Cc_limit/Model-Behavior-Artist-Behind-Meta-Muse-Logo-Business.jpg"
-                            alt="">
-
-                        <h2 class="text-lg md:text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">She Designed Meta’s
-                            New AI Logo.
-                            Then Came the Hate</h2>
-                    </div>
-                    <hr class="w-[90%] text-zinc-300 my-2">
-                </a>
-
-                <a href="" class="">
-                    <div class="flex gap-4">
-                        <img class="h-40 w-40 object-cover"
-                            src="https://media.wired.com/photos/6ac572f4ee1eb4b838492c3f/1:1/w_1024%2Cc_limit/politics_musk_funding_elections.jpg"
-                            alt="">
-
-                        <h2 class="text-lg md:text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">Elon Musk’s America
-                            PAC Is Quietly
-                            Funding November’s Most Consequential Elections</h2>
-                    </div>
-                    <hr class="w-[90%] text-zinc-300 my-2">
-                </a>
+                <% } %>
             </div>
-        </div>
+        <% } %>
 
-        <hr class="w-[90%] text-zinc-300 my-4 mx-auto hidden md:block">
+        <!-- Bottom Feed Grid + Load More -->
+        <% if (recent && recent.length > 0) { %>
+            <% if (hero || (topStories && topStories.length > 0)) { %>
+                <hr class="w-[95%] text-zinc-300 my-8 mx-auto hidden md:block">
+            <% } %>
 
-        <div class="grid md:grid-cols-4 grid-cols-1">
-            <a href="" class="md:p-2 p-6">
-                <img class="w-full"
-                    src="https://media.wired.com/photos/6ac94a7a4676236d922d7944/4:3/w_1024%2Cc_limit/Security_Feds%2520Got%2520Warrants%2520to%2520Use%2520Fake%2520Cell%2520Towers%2520to%2520Hunt%2520Down%2520Don%2520Lemon%25E2%2580%2599s%2520Producer_v1.jpg"
-                    alt="">
-                <div class="mt-2 flex flex-col gap-2">
-                    <h2 class="text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">Feds Got Warrants to Use
-                        Fake Cell Towers to Hunt Down Don Lemon’s Producer</h2>
-                    <p>Investigators also sought permission to use an invasive surveillance tool called a cell-site
-                        simulators against journalist Georgia Fort and a Minnesota state Senate candidate.</p>
-                    <span class="text-zinc-950" style="font-family: 'Google Sans Code';">By Rashtriya Gaurav</span>
+            <div id="postGrid" class="grid md:grid-cols-4 grid-cols-1 gap-4">
+                <%- include('./partials/cards', { recent }) %>
+            </div>
+
+            <% if (page < totalPages) { %>
+                <div class="flex justify-center mt-10">
+                    <a id="loadMoreBtn"
+                       href="/?page=<%= page + 1 %><%= selectedCategory ? '&category=' + selectedCategory : '' %>"
+                       data-next-page="<%= page + 1 %>"
+                       data-total-pages="<%= totalPages %>"
+                       data-category="<%= selectedCategory || '' %>"
+                       class="px-6 py-2.5 border border-zinc-950 text-zinc-950 rounded text-sm font-semibold hover:bg-zinc-950 hover:text-white transition cursor-pointer">
+                        Load more
+                    </a>
                 </div>
-            </a>
+            <% } %>
+        <% } %>
 
-            <a href="" class="md:p-2 p-6">
-                <img class="w-full"
-                    src="https://media.wired.com/photos/6ac92cd871639cc251fda20c/4:5/w_1024%2Cc_limit/GettyImages-2153933839.jpg"
-                    alt="">
-                <div class="mt-2 flex flex-col gap-2">
-                    <h2 class="text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">Far-Right Election
-                        Groups Are Now Targeting Nursing Homes</h2>
-                    <p>Inspired by new guidance from the Trump administration, right-wing election groups are targeting
-                        nursing homes, baselessly claiming that left-wing groups are stealing residents’ votes.</p>
-                    <span class="text-zinc-950" style="font-family: 'Google Sans Code';">By Rashtriya Gaurav</span>
-                </div>
-            </a>
+    <% } %>
+</main>
 
-            <a href="" class="md:p-2 p-6">
-                <img class="w-full"
-                    src="https://media.wired.com/photos/6ac637050efe0916b50728f3/1:1/w_1920,c_limit/100726-Reduce%20Skin%20Age.jpg"
-                    alt="">
-                <div class="mt-2 flex flex-col gap-2">
-                    <h2 class="text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">A New Anti-Aging Drug
-                        Looks to Turn Back the Clock on Skin Age</h2>
-                    <p>After four weeks of using the cream, participants lowered the biological age of their skin by
-                        about two years on average.</p>
-                    <span class="text-zinc-950" style="font-family: 'Google Sans Code';">By Rashtriya Gaurav</span>
-                </div>
-            </a>
+<script src="/loadmore.js" defer></script>
 
-            <a href="" class="md:p-2 p-6">
-                <img class="w-full"
-                    src="https://media.wired.com/photos/6ac967401dd8a2ab2e331c51/3:2/w_1920,c_limit/Google-Playground-Gear-PG_THUMBNAIL_BLOG%20(1).png"
-                    alt="">
-                <div class="mt-2 flex flex-col gap-2">
-                    <h2 class="text-2xl text-zinc-950 hover:underline" style="font-family: 'Google Sans Code';">I Made Terrible Games
-                        With Google’s AI Playground</h2>
-                    <p>A long day’s haul in the video game slop mines.</p>
-                    <span class="text-zinc-950" style="font-family: 'Google Sans Code';">By Rashtriya Gaurav</span>
-                </div>
-            </a>
-        </div>
-    </main>
-
-    </body>
-
-    </html>
+<%- include('./partials/footer') %>

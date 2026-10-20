@@ -1,0 +1,20 @@
+<% recent.forEach(post => { %>
+    <a href="/post/<%= post.slug %>" class="md:p-2 p-6 group flex flex-col justify-between">
+        <div>
+            <img class="w-full h-48 object-cover rounded-sm"
+                 src="<%= post.coverImage?.url || '' %>"
+                 alt="<%= post.coverImage?.alt || post.title %>">
+            <div class="mt-3 flex flex-col gap-2">
+                <span class="text-xs uppercase tracking-wider font-semibold text-blue-600"><%= post.category %></span>
+                <h2 class="text-xl text-zinc-950 group-hover:underline font-bold leading-snug" style="font-family: 'Google Sans Code';">
+                    <%= post.title %>
+                </h2>
+                <p class="text-sm text-zinc-600 line-clamp-3 leading-relaxed"><%= post.excerpt %></p>
+            </div>
+        </div>
+        <div class="flex items-center justify-between text-xs text-zinc-950 mt-4 font-semibold" style="font-family: 'Google Sans Code';">
+            <span>By <%= post.author?.name || 'Editorial Team' %></span>
+            <%- include('views-badge', { count: post.views }) %>
+        </div>
+    </a>
+<% }); %>

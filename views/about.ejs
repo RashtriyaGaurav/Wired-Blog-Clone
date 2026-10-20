@@ -1,0 +1,117 @@
+<%- include('./partials/header', { title: 'About - StudentCalc Blog' }) %>
+
+<main class="flex-1 max-w-3xl mx-auto py-12 px-4 w-full">
+
+  <!-- Intro -->
+  <section class="mb-14">
+    <p class="text-xs uppercase font-bold tracking-wider text-blue-600 mb-3">About</p>
+    <h1 class="text-3xl md:text-5xl font-extrabold text-zinc-950 leading-tight mb-5" style="font-family: 'Google Sans Code';">
+      Clear, honest writing on tech, science, health and food.
+    </h1>
+    <p class="text-lg text-zinc-600 leading-relaxed">
+      StudentCalc is an independent blog created by two students. It started as a project to learn
+      web development and grew into a place where we explain the topics we keep reading about,
+      in plain language and without the clutter.
+    </p>
+  </section>
+
+  <!-- Why -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-zinc-950 mb-3" style="font-family: 'Google Sans Code';">Why this blog exists</h2>
+    <div class="space-y-4 text-zinc-700 leading-relaxed">
+      <p>
+        Good articles are often long, full of jargon, or hard to find. We wanted a clean, fast
+        site where complicated ideas are explained simply, so readers can understand a topic
+        in a few minutes and decide whether to dig deeper.
+      </p>
+      <p>
+        The site itself is part of the project. We built it from scratch with Node.js, Express,
+        MongoDB and Tailwind CSS, including secure logins, an admin panel and the like system.
+      </p>
+    </div>
+  </section>
+
+  <!-- Topics -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-zinc-950 mb-4" style="font-family: 'Google Sans Code';">What you will find here</h2>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <a href="/?category=Technology" class="block border border-zinc-200 rounded-md p-4 hover:border-zinc-950 transition">
+        <h3 class="font-bold text-zinc-950">Technology</h3>
+        <p class="text-sm text-zinc-600 mt-1">Gadgets, software and the ideas shaping how we use them.</p>
+      </a>
+      <a href="/?category=Science" class="block border border-zinc-200 rounded-md p-4 hover:border-zinc-950 transition">
+        <h3 class="font-bold text-zinc-950">Science</h3>
+        <p class="text-sm text-zinc-600 mt-1">Research and discoveries, explained without the jargon.</p>
+      </a>
+      <a href="/?category=Health" class="block border border-zinc-200 rounded-md p-4 hover:border-zinc-950 transition">
+        <h3 class="font-bold text-zinc-950">Health</h3>
+        <p class="text-sm text-zinc-600 mt-1">Everyday wellbeing, habits and what the evidence says.</p>
+      </a>
+      <a href="/?category=Food" class="block border border-zinc-200 rounded-md p-4 hover:border-zinc-950 transition">
+        <h3 class="font-bold text-zinc-950">Food</h3>
+        <p class="text-sm text-zinc-600 mt-1">What we eat, why it matters, and the culture around it.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Editorial standards -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-zinc-950 mb-3" style="font-family: 'Google Sans Code';">Editorial standards</h2>
+    <ul class="space-y-3 text-zinc-700 leading-relaxed list-disc pl-5">
+      <li><strong class="text-zinc-950">Sources are credited.</strong> When a post draws on someone else's reporting or research, we name the source and link to it.</li>
+      <li><strong class="text-zinc-950">Corrections are welcome.</strong> If we get something wrong, let us know. We will fix it and note the change.</li>
+      <li><strong class="text-zinc-950">Not medical advice.</strong> Health content is for general information only and is not a substitute for advice from a qualified professional.</li>
+      <li><strong class="text-zinc-950">Independence.</strong> What we write is never influenced by advertisers or sponsors.</li>
+    </ul>
+  </section>
+
+  <!-- Funding -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-zinc-950 mb-3" style="font-family: 'Google Sans Code';">How this site is funded</h2>
+    <div class="space-y-4 text-zinc-700 leading-relaxed">
+      <p>
+        StudentCalc is a self-funded project. In the future, we may support it with display ads
+        or affiliate links. If that happens, ads will be clearly separated from editorial content,
+        and any post containing affiliate links will say so up front.
+      </p>
+      <p>
+        Accounts are used only so you can like posts. Passwords are securely hashed and never
+        stored in plain text. If we add ads or analytics later, they may use cookies, and we will
+        explain exactly how in our <a href="/privacy" class="text-blue-600 hover:underline">Privacy Policy</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Authors -->
+  <section class="mb-12 border-t border-zinc-200 pt-10">
+    <h2 class="text-2xl font-bold text-zinc-950 mb-5" style="font-family: 'Google Sans Code';">Who writes this</h2>
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div class="border border-zinc-200 rounded-md p-5">
+        <h3 class="font-bold text-zinc-950 text-lg">[Name 1]</h3>
+        <p class="text-xs uppercase tracking-wider text-blue-600 font-semibold mt-0.5">[Role, e.g. Writer and Developer]</p>
+        <p class="text-sm text-zinc-700 leading-relaxed mt-3">
+          [Course / year] student based in [city]. Interested in [interests]. Outside of writing, [one real hobby].
+        </p>
+      </div>
+      <div class="border border-zinc-200 rounded-md p-5">
+        <h3 class="font-bold text-zinc-950 text-lg">[Name 2]</h3>
+        <p class="text-xs uppercase tracking-wider text-blue-600 font-semibold mt-0.5">[Role, e.g. Writer and Editor]</p>
+        <p class="text-sm text-zinc-700 leading-relaxed mt-3">
+          [Course / year] student based in [city]. Interested in [interests]. Outside of writing, [one real hobby].
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="rounded-md bg-zinc-50 border border-zinc-200 p-6">
+    <h2 class="text-xl font-bold text-zinc-950 mb-2" style="font-family: 'Google Sans Code';">Get in touch</h2>
+    <p class="text-zinc-700 leading-relaxed mb-3">
+      Found a mistake, have a topic suggestion, or want to work together? We read every message.
+    </p>
+    <a href="mailto:[your-email@example.com]" class="font-semibold text-blue-600 hover:underline">[your-email@example.com]</a>
+  </section>
+
+</main>
+
+<%- include('./partials/footer') %>

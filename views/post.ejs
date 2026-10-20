@@ -1,0 +1,113 @@
+<%- include('./partials/header', { title: post.title + ' - StudentCalc Blog' }) %>
+
+<main class="flex-1 max-w-4xl mx-auto py-10 px-4 w-full">
+  <article class="mb-16">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="/?category=<%= post.category %>" class="text-xs uppercase font-bold tracking-wider text-blue-600 mb-2 block hover:underline"><%= post.category %></a>
+      <h1 class="text-3xl md:text-5xl font-extrabold text-zinc-950 mb-4 leading-tight" style="font-family: 'Google Sans Code';">
+        <%= post.title %>
+      </h1>
+      <p class="text-xl text-zinc-600 mb-6 leading-relaxed"><%= post.excerpt %></p>
+
+      <!-- Action & Meta Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-y border-zinc-200 py-4 text-sm text-zinc-500">
+        <div class="flex items-center gap-3">
+          <span>By <strong class="text-zinc-900"><%= post.author?.name || 'Editorial Team' %></strong></span>
+          <span>•</span>
+          <time><%= new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+        </div>
+
+        <div class="flex items-center gap-6">
+                    <% if (user && user.role === 'admin') { %>
+                    <a href="/admin/edit/<%= post._id %>" class="text-xs px-3 py-1.5 border border-zinc-300 rounded hover:border-zinc-950 transition">Edit</a>
+                    <% } %>
+          <!-- Views (arc + dot icon) -->
+          <div class="flex items-center gap-1.5 text-zinc-600 font-medium">
+            <svg class="w-5 h-5 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <path d="M3.5 11.5Q12 4.5 20.5 11.5" />
+              <circle cx="12" cy="15" r="3.6" fill="currentColor" stroke="none" />
+            </svg>
+            <span><%= (post.views || 0).toLocaleString('en-US') %> views</span>
+          </div>
+
+          <!-- Like button -->
+          <% if (user) { %>
+            <button
+              id="likeBtn"
+              data-slug="<%= post.slug %>"
+              type="button"
+              class="flex items-center gap-2 px-3.5 py-1.5 border rounded-full transition cursor-pointer font-semibold text-sm <%= liked ? 'border-red-200 bg-red-50 text-red-600 shadow-sm' : 'border-zinc-300 text-zinc-700 hover:border-zinc-950 bg-white' %>">
+              <svg id="likeIcon" class="w-5 h-5 <%= liked ? 'fill-red-500 text-red-500 stroke-red-500' : 'stroke-zinc-700 fill-none' %>" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span id="likeCount"><%= post.likeCount || 0 %></span>
+            </button>
+          <% } else { %>
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 stroke-zinc-400 fill-none" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"/>
+              </svg>
+              <span class="font-semibold text-zinc-800"><%= post.likeCount || 0 %></span>
+              <a href="/login" class="text-xs text-zinc-500 hover:underline ml-1">(Log in to like)</a>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </header>
+
+    <!-- Cover Image -->
+    <% if (post.coverImage?.url) { %>
+      <div class="mb-10">
+        <img class="w-full max-h-[500px] object-cover rounded-md shadow-sm" src="<%= post.coverImage.url %>" alt="<%= post.coverImage.alt || post.title %>">
+      </div>
+    <% } %>
+
+    <!-- Content -->
+    <div class="prose max-w-none text-zinc-800 leading-relaxed space-y-6 text-base md:text-lg">
+      <%- post.contentHtml %>
+    </div>
+  </article>
+
+  <!-- Recommended Blogs -->
+  <% if (suggestions && suggestions.length > 0) { %>
+    <section class="border-t border-zinc-200 pt-10 mt-16 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-zinc-950" style="font-family: 'Google Sans Code';">Recommended blogs</h2>
+        <a href="/?category=<%= post.category %>" class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
+          See more in <%= post.category %> →
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-2 grid-cols-1 gap-6">
+        <% suggestions.forEach(item => { %>
+          <a href="/post/<%= item.slug %>" class="group flex gap-4 p-4 border border-zinc-200 rounded-md hover:border-zinc-400 transition bg-white items-center">
+            <img class="w-28 h-28 object-cover rounded-md flex-shrink-0" src="<%= item.coverImage?.url || '' %>" alt="<%= item.title %>">
+            <div class="flex flex-col justify-between h-full">
+              <div>
+                <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider block mb-1"><%= item.category %></span>
+                <h3 class="text-base font-bold text-zinc-900 group-hover:underline line-clamp-2 leading-snug" style="font-family: 'Google Sans Code';">
+                  <%= item.title %>
+                </h3>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-zinc-500 mt-3">
+                <span class="flex items-center gap-1">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                    <path d="M3.5 11.5Q12 4.5 20.5 11.5" />
+                    <circle cx="12" cy="15" r="3.6" fill="currentColor" stroke="none" />
+                  </svg>
+                  <%= (item.views || 0).toLocaleString('en-US') %>
+                </span>
+                <span>♥ <%= item.likeCount || 0 %></span>
+              </div>
+            </div>
+          </a>
+        <% }); %>
+      </div>
+    </section>
+  <% } %>
+</main>
+
+<script src="/like.js" defer></script>
+
+<%- include('./partials/footer') %>

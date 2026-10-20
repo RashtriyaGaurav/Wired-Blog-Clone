@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-mongoose.connect(`${process.env.MONGODB_URI}/Wired`)
 
-const userSchema = mongoose.Schema({
-    email: String,
-    password: String
-});
+const userSchema = new mongoose.Schema({
+  name:  { type: String, required: true, trim: true, maxlength: 60 },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  passwordHash: { type: String, required: true, select: false }, // hidden by default
+  role:  { type: String, enum: ['user', 'admin'], default: 'user' },
+}, { timestamps: true });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.models.User || mongoose.model('User', userSchema);

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-100 flex items-center justify-center min-h-screen text-zinc-900">
+  <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md text-center">
+    <h1 class="text-4xl font-bold text-red-600 mb-2">Oops!</h1>
+    <h2 class="text-xl font-semibold mb-4"><%= message %></h2>
+    
+    <% if (error && error.stack) { %>
+      <pre class="bg-zinc-900 text-red-400 p-4 rounded text-left text-xs overflow-x-auto mb-4"><%= error.stack %></pre>
+    <% } %>
+
+    <a href="/" class="inline-block bg-zinc-900 text-white px-4 py-2 rounded hover:bg-zinc-800">Return Home</a>
+  </div>
+</body>
+</html>

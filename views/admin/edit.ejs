@@ -1,0 +1,84 @@
+<%- include('../partials/header', { title: 'Edit Post' }) %>
+
+<main class="flex-1 max-w-3xl mx-auto py-8 px-4 w-full">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-zinc-950" style="font-family: 'Google Sans Code';">Edit Post</h1>
+    <a href="/admin/posts" class="text-sm text-zinc-600 hover:underline">← Back to posts</a>
+  </div>
+
+  <% if (errors && errors.length) { %>
+    <div class="mb-6 px-4 py-3 rounded border border-red-200 bg-red-50 text-red-700 text-sm">
+      <ul class="list-disc pl-5 space-y-1">
+        <% errors.forEach(e => { %><li><%= e %></li><% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/admin/edit/<%= post._id %>" method="POST" class="space-y-5">
+    <div>
+      <label class="block text-sm font-semibold mb-1" for="title">Title</label>
+      <input id="title" name="title" type="text" maxlength="150" required value="<%= post.title %>"
+             class="w-full border border-zinc-300 rounded px-3 py-2 focus:outline-none focus:border-zinc-950">
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-1" for="excerpt">Excerpt</label>
+      <textarea id="excerpt" name="excerpt" rows="3" maxlength="300" required
+                class="w-full border border-zinc-300 rounded px-3 py-2 focus:outline-none focus:border-zinc-950"><%= post.excerpt %></textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-1" for="category">Category</label>
+      <select id="category" name="category" class="w-full border border-zinc-300 rounded px-3 py-2 bg-white">
+        <% categories.forEach(c => { %>
+          <option value="<%= c %>" <%= post.category === c ? 'selected' : '' %>><%= c %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-1" for="coverImage">Cover image URL (Imgur)</label>
+      <input id="coverImage" name="coverImage" type="url" required value="<%= post.coverImage?.url || '' %>"
+             class="w-full border border-zinc-300 rounded px-3 py-2 focus:outline-none focus:border-zinc-950">
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-1" for="coverAlt">Cover image alt text</label>
+      <input id="coverAlt" name="coverAlt" type="text" maxlength="200" value="<%= post.coverImage?.alt || '' %>"
+             class="w-full border border-zinc-300 rounded px-3 py-2 focus:outline-none focus:border-zinc-950">
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-1" for="contentMarkdown">Content (Markdown)</label>
+      <p class="text-xs text-zinc-500 mb-1">Image daalne ke liye: <code>![alt](https://i.imgur.com/xxxx.jpg)</code></p>
+      <textarea id="contentMarkdown" name="contentMarkdown" rows="16" required
+                class="w-full border border-zinc-300 rounded px-3 py-2 font-mono text-sm focus:outline-none focus:border-zinc-950"><%= post.contentMarkdown %></textarea>
+    </div>
+
+    <div class="flex flex-wrap gap-6 text-sm">
+      <label class="flex items-center gap-2"><input type="checkbox" name="isTrending" <%= post.isTrending ? 'checked' : '' %>> Trending (hero)</label>
+      <label class="flex items-center gap-2"><input type="checkbox" name="isTopStory" <%= post.isTopStory ? 'checked' : '' %>> Top story (sidebar)</label>
+      <label class="flex items-center gap-2"><input type="checkbox" name="published" <%= post.published ? 'checked' : '' %>> Published</label>
+    </div>
+
+    <p class="text-xs text-zinc-500">URL (slug) edit pe nahi badalta: <code>/post/<%= post.slug %></code></p>
+
+    <div class="flex items-center gap-3">
+      <button type="submit" class="px-5 py-2 bg-zinc-950 text-white rounded text-sm font-semibold hover:bg-zinc-800 transition cursor-pointer">Save changes</button>
+      <a href="/admin/posts" class="px-5 py-2 border border-zinc-300 rounded text-sm font-semibold hover:bg-zinc-100">Cancel</a>
+    </div>
+  </form>
+
+  <!-- Danger zone -->
+  <div class="mt-12 pt-6 border-t border-red-200">
+    <h2 class="text-lg font-bold text-red-600 mb-2">Danger zone</h2>
+    <p class="text-sm text-zinc-600 mb-3">Delete karne ke baad post wapas nahi aayega.</p>
+    <form action="/admin/delete/<%= post._id %>" method="POST" data-confirm="Ye post permanently delete ho jayega. Pakka?">
+      <button type="submit" class="px-4 py-2 border border-red-600 text-red-600 rounded text-sm font-semibold hover:bg-red-600 hover:text-white transition cursor-pointer">Delete this post</button>
+    </form>
+  </div>
+</main>
+
+<script src="/confirm.js" defer></script>
+
+<%- include('../partials/footer') %>
