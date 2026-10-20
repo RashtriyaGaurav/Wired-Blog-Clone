@@ -14,7 +14,7 @@
     "mongodb": "^7.7.0",
     "mongoose": "^9.11.2",
     "path": "^0.12.7",
-    "sanitize-html": "^2.18.1",
+    "sanitize-html": "2.11.0",
     "slugify": "^1.6.9"
   },
   "devDependencies": {
