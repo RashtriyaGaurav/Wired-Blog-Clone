@@ -14,39 +14,58 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
     </style>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('mobile-menu');
+            var opening = menu.style.display === 'none' || menu.style.display === '';
+            setMenu(opening);
+        }
+
+        function setMenu(open) {
+            document.getElementById('mobile-menu').style.display = open ? 'block' : 'none';
+            document.getElementById('icon-open').style.display = open ? 'none' : 'block';
+            document.getElementById('icon-close').style.display = open ? 'block' : 'none';
+            document.getElementById('menu-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+
+        // auto-close if screen becomes desktop size
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 768) setMenu(false);
+        });
+    </script>
 </head>
 
 <body class="min-h-screen flex flex-col text-zinc-800 bg-white" style="font-family: 'Google Sans Code', monospace;">
 
-    <header class="border-b border-zinc-200">
-        <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
-            
-            <!-- Left: Logo & Categories -->
-            <div class="flex items-center gap-10">
-                <a href="/" class="text-2xl font-extrabold tracking-tight text-zinc-950" style="font-family: 'Google Sans Code', monospace;">
-                    StudentCalc
-                </a>
+    <header class="sticky top-0 z-50 bg-white border-b border-zinc-200">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-4 md:py-5">
 
-                <div class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600">
-                    <a href="/?category=Health" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Health</a>
-                    <a href="/?category=Science" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Science</a>
-                    <a href="/?category=Technology" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Technology</a>
-                    <a href="/?category=Food" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Food</a>
-                    <a href="/about" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">About</a>
-                    <a href="/privacy" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Privacy Policy</a>
-                </div>
+            <!-- Left: Logo -->
+            <a href="/" class="text-xl md:text-2xl font-extrabold tracking-tight text-zinc-950">
+                StudentCalc
+            </a>
+
+            <!-- Desktop: Categories -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 mr-auto ml-10">
+                <a href="/?category=Health" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Health</a>
+                <a href="/?category=Science" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Science</a>
+                <a href="/?category=Technology" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Technology</a>
+                <a href="/?category=Food" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Food</a>
+                <a href="/about" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">About</a>
+                <a href="/privacy" class="hover:text-zinc-950 hover:underline underline-offset-4 transition">Privacy Policy</a>
             </div>
 
-            <!-- Right: Auth / Admin Controls -->
-            <div class="flex items-center gap-4 text-sm font-medium">
+            <!-- Desktop: Auth / Admin Controls -->
+            <div class="hidden md:flex items-center gap-4 text-sm font-medium">
                 <% if (user) { %>
                     <% if (user.role === 'admin') { %>
                         <a href="/admin/posts" class="text-zinc-600 hover:text-zinc-950 hover:underline underline-offset-4 transition">Manage</a>
-                        <a href="/admin/create" class="px-3 py-1.5 border border-zinc-950 text-zinc-950 rounded hover:bg-zinc-950 hover:text-white transition text-xs uppercase tracking-wider font-semibold" style="font-family: 'Google Sans Code', monospace;">
+                        <a href="/admin/create" class="px-3 py-1.5 border border-zinc-950 text-zinc-950 rounded hover:bg-zinc-950 hover:text-white transition text-xs uppercase tracking-wider font-semibold">
                           + New Post
                         </a>
                     <% } %>
-                    <span class="text-zinc-500 hidden sm:inline">Hi, <strong class="text-zinc-900"><%= user.name %></strong></span>
+                    <span class="text-zinc-500">Hi, <strong class="text-zinc-900"><%= user.name %></strong></span>
                     <form action="/logout" method="POST" class="inline">
                         <button type="submit" class="text-red-600 hover:underline underline-offset-4 transition cursor-pointer">Logout</button>
                     </form>
@@ -56,13 +75,54 @@
                 <% } %>
             </div>
 
+            <!-- Mobile: Hamburger (only visible below md) -->
+            <div class="md:hidden">
+                <button id="menu-btn" type="button" onclick="toggleMenu()" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
+                    class="p-2 -mr-2 rounded text-zinc-900 hover:bg-zinc-100 transition cursor-pointer">
+                    <svg id="icon-open" style="display:block" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+                    </svg>
+                    <svg id="icon-close" style="display:none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                </button>
+            </div>
         </nav>
-        <div class="md:hidden flex flex-wrap gap-x-5 gap-y-2 px-6 pb-4 text-sm font-medium text-zinc-600">
-            <a href="/?category=Health" class="hover:underline underline-offset-4">Health</a>
-            <a href="/?category=Science" class="hover:underline underline-offset-4">Science</a>
-            <a href="/?category=Technology" class="hover:underline underline-offset-4">Technology</a>
-            <a href="/?category=Food" class="hover:underline underline-offset-4">Food</a>
-            <a href="/about" class="hover:underline underline-offset-4">About</a>
-            <a href="/privacy" class="hover:underline underline-offset-4">Privacy Policy</a>
+
+        <!-- Mobile: Dropdown Panel -->
+        <div id="mobile-menu" style="display:none" class="border-t border-zinc-200 bg-white px-4 sm:px-6 pb-5 pt-4 shadow-lg md:hidden">
+
+            <p class="text-[11px] uppercase tracking-widest text-zinc-400 mb-2">Categories</p>
+            <div class="grid grid-cols-2 gap-2 text-sm font-medium">
+                <a href="/?category=Health" class="px-3 py-2.5 rounded border border-zinc-200 text-zinc-700 active:bg-zinc-100">Health</a>
+                <a href="/?category=Science" class="px-3 py-2.5 rounded border border-zinc-200 text-zinc-700 active:bg-zinc-100">Science</a>
+                <a href="/?category=Technology" class="px-3 py-2.5 rounded border border-zinc-200 text-zinc-700 active:bg-zinc-100">Technology</a>
+                <a href="/?category=Food" class="px-3 py-2.5 rounded border border-zinc-200 text-zinc-700 active:bg-zinc-100">Food</a>
+            </div>
+
+            <div class="flex gap-5 mt-4 text-sm font-medium text-zinc-500">
+                <a href="/about" class="hover:text-zinc-950 underline-offset-4 hover:underline">About</a>
+                <a href="/privacy" class="hover:text-zinc-950 underline-offset-4 hover:underline">Privacy Policy</a>
+            </div>
+
+            <hr class="my-4 border-zinc-200">
+
+            <% if (user) { %>
+                <p class="text-sm text-zinc-500 mb-3">Hi, <strong class="text-zinc-900"><%= user.name %></strong></p>
+                <% if (user.role === 'admin') { %>
+                    <div class="grid grid-cols-2 gap-2 mb-2 text-sm font-medium">
+                        <a href="/admin/posts" class="text-center px-3 py-2.5 rounded border border-zinc-200 text-zinc-700 active:bg-zinc-100">Manage</a>
+                        <a href="/admin/create" class="text-center px-3 py-2.5 rounded border border-zinc-950 text-zinc-950 active:bg-zinc-950 active:text-white">+ New Post</a>
+                    </div>
+                <% } %>
+                <form action="/logout" method="POST">
+                    <button type="submit" class="w-full px-3 py-2.5 rounded border border-red-200 text-red-600 text-sm font-medium active:bg-red-50 cursor-pointer">Logout</button>
+                </form>
+            <% } else { %>
+                <div class="grid grid-cols-2 gap-2 text-sm font-medium">
+                    <a href="/login" class="text-center px-3 py-2.5 rounded border border-zinc-300 text-zinc-800 active:bg-zinc-100">Log In</a>
+                    <a href="/register" class="text-center px-3 py-2.5 rounded bg-zinc-950 text-white active:bg-zinc-800">Sign Up</a>
+                </div>
+            <% } %>
         </div>
     </header>
