@@ -10,30 +10,11 @@
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="/menu.js" defer></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
     </style>
-
-    <script>
-        function toggleMenu() {
-            var menu = document.getElementById('mobile-menu');
-            var opening = menu.style.display === 'none' || menu.style.display === '';
-            setMenu(opening);
-        }
-
-        function setMenu(open) {
-            document.getElementById('mobile-menu').style.display = open ? 'block' : 'none';
-            document.getElementById('icon-open').style.display = open ? 'none' : 'block';
-            document.getElementById('icon-close').style.display = open ? 'block' : 'none';
-            document.getElementById('menu-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
-        }
-
-        // auto-close if screen becomes desktop size
-        window.addEventListener('resize', function () {
-            if (window.innerWidth >= 768) setMenu(false);
-        });
-    </script>
 </head>
 
 <body class="min-h-screen flex flex-col text-zinc-800 bg-white" style="font-family: 'Google Sans Code', monospace;">
@@ -77,7 +58,7 @@
 
             <!-- Mobile: Hamburger (only visible below md) -->
             <div class="md:hidden">
-                <button id="menu-btn" type="button" onclick="toggleMenu()" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
+                <button id="menu-btn" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"
                     class="p-2 -mr-2 rounded text-zinc-900 hover:bg-zinc-100 transition cursor-pointer">
                     <svg id="icon-open" style="display:block" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
